@@ -1,3 +1,7 @@
+## [0.0.3] - 2019-05-19
+
+* Fixed a bug where color themes were not working correctly
+  
 ## [0.0.2] - 2019-05-19
 
 * Goban is now adaptive, -it resizes itself based on its parent- making it much more flexible in its usage
