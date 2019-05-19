@@ -6,6 +6,8 @@ import 'package:goban/widgets/stone.dart';
 import 'package:provider/provider.dart';
 
 class Intersection extends StatelessWidget {
+  const Intersection({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final stoneModel = Provider.of<StoneModel>(context);
@@ -26,7 +28,6 @@ class Intersection extends StatelessWidget {
           width: size,
           height: size,
           decoration: BoxDecoration(
-              color: Color.fromARGB(120, 255, 0, 0),
               borderRadius: BorderRadius.circular(size)));
     }
 
@@ -38,11 +39,12 @@ class Intersection extends StatelessWidget {
     if (model.active) {
       return;
     }
-
     final gobanModel = Provider.of<GobanModel>(context);
 
     model.active = true;
     model.player = gobanModel.turn;
+
+
     gobanModel.nextTurn();
   }
 }

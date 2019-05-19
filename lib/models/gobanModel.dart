@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:goban/enums/boardSize.dart';
 import 'package:goban/enums/player.dart';
 import 'package:goban/themes/gobanTheme.dart';
 import 'package:goban/themes/stoneTheme.dart';
 
 class GobanModel with ChangeNotifier {
-  final BoardSize boardSize;
+  final int boardSize;
   final double size;
   final GobanTheme gobanTheme;
   final StoneThemes stoneThemes;
@@ -32,7 +31,7 @@ class GobanModel with ChangeNotifier {
     notifyListeners();
   }
 
-  set boardSize(BoardSize boardSize) {
+  set boardSize(int boardSize) {
     this.boardSize = boardSize;
     notifyListeners();
   }

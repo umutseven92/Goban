@@ -1,7 +1,7 @@
 library goban;
 
 import 'package:flutter/material.dart';
-import 'package:goban/enums/boardSize.dart';
+import 'package:goban/exceptions/gobanException.dart';
 import 'package:goban/models/gobanModel.dart';
 import 'package:goban/models/stoneModel.dart';
 import 'package:goban/themes/gobanTheme.dart';
@@ -11,11 +11,15 @@ import 'package:goban/widgets/line.dart';
 import 'package:provider/provider.dart';
 
 class Goban extends StatelessWidget {
-  final BoardSize boardSize;
+  final int boardSize;
   final GobanTheme gobanTheme;
   final StoneThemes stoneThemes;
 
-  Goban({@required this.boardSize, this.gobanTheme, this.stoneThemes});
+  Goban({@required this.boardSize, this.gobanTheme, this.stoneThemes}) {
+    if (boardSize < 2) {
+      throw GobanException('Board size cannot be smaller than 2!');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +38,12 @@ class _Goban extends StatelessWidget {
     var boardSize = model.boardSize;
     var theme = model.gobanTheme;
 
-    var boardSizeNum = BoardSizeHelper.getBoardSizeNumber(boardSize);
-
     var boardColor =
-        theme == null ? GobanTheme.defaultBoardColor : theme.boardColor;
+    theme == null ? GobanTheme.defaultBoardColor : theme.boardColor;
     var lineColor =
-        theme == null ? GobanTheme.defaultLineColor : theme.lineColor;
+    theme == null ? GobanTheme.defaultLineColor : theme.lineColor;
     var lineWidth =
-        theme == null ? GobanTheme.defaultLineWidth : theme.lineWidth;
+    theme == null ? GobanTheme.defaultLineWidth : theme.lineWidth;
 
     var stoneThemes = StoneThemes(
         model.stoneThemes?.blackStoneTheme == null
@@ -55,7 +57,7 @@ class _Goban extends StatelessWidget {
     var horizontalLines = <Widget>[];
 
     // Create lines
-    for (int i = 0; i < boardSizeNum; i++) {
+    for (int i = 0; i < boardSize; i++) {
       verticalLines.add(Line(
         lineColor: lineColor,
         width: lineWidth,
@@ -72,7 +74,6 @@ class _Goban extends StatelessWidget {
           border: Border.all(color: lineColor, width: lineWidth),
           color: boardColor,
         ),
-        padding: EdgeInsets.all(10),
         child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) =>
                 AspectRatio(
@@ -82,49 +83,37 @@ class _Goban extends StatelessWidget {
                       child: Stack(
                         children: <Widget>[
                           Container(
+                            margin: EdgeInsets.all(constraints.maxWidth /
+                                (boardSize * 2)),
                             color: boardColor,
                           ),
                           Positioned(
                             child: Container(
+                              margin: EdgeInsets.all(constraints.maxWidth /
+                                  (boardSize * 2)),
+
                               child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: verticalLines),
                             ),
                           ),
                           Positioned(
                             child: Container(
+                              margin: EdgeInsets.all(constraints.maxWidth /
+                                  (boardSize * 2)),
+
                               child: Column(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: horizontalLines),
                             ),
                           ),
                           Positioned(
-                            /*
-                top: IntersectionHelper
-                    .calculateIntersectionAdjustmentFromBoardSize(boardSize),
-                left: IntersectionHelper
-                    .calculateIntersectionAdjustmentFromBoardSize(boardSize),
-                child: Container(
-                  height: MediaQuery.of(context).size.width +
-                      IntersectionHelper
-                          .calculateBoardHeightAdjustmentFromBoardSize(
-                              boardSize),
-                  width: MediaQuery.of(context).size.width +
-                      IntersectionHelper
-                          .calculateBoardWidthAdjustmentFromBoardSize(
-                              boardSize),
-
-                 */
-
                             child: Container(
                                 child: _getIntersections(
-                                    StoneModel(
-                                        stoneThemes: stoneThemes,
-                                        size: constraints.maxWidth /
-                                            boardSizeNum),
-                                    boardSizeNum)),
+                                    boardSize, constraints.maxWidth /
+                                    boardSize, stoneThemes)),
                           ),
                         ],
                       ),
@@ -133,14 +122,18 @@ class _Goban extends StatelessWidget {
                 )));
   }
 
-  Widget _getIntersections(StoneModel stoneModel, int boardSizeNum) {
+  Widget _getIntersections(int boardSizeNum, double size,
+      StoneThemes stoneThemes) {
     var intersections = <Row>[];
 
     for (int i = 0; i < boardSizeNum; i++) {
       var children = <Widget>[
         for (int j = 0; j < boardSizeNum; j++)
           ChangeNotifierProvider<StoneModel>(
-              builder: (_) => stoneModel, child: Intersection())
+              builder: (_) =>
+                  StoneModel(
+                      stoneThemes: stoneThemes,
+                      size: size), child: Intersection(key: UniqueKey(),))
       ];
 
       intersections.add(Row(
