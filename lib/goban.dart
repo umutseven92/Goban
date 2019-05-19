@@ -24,8 +24,10 @@ class Goban extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<GobanModel>(
-        builder: (_) =>
-            GobanModel(boardSize: boardSize, gobanTheme: gobanTheme),
+        builder: (_) => GobanModel(
+            boardSize: boardSize,
+            gobanTheme: gobanTheme == null ? GobanTheme() : gobanTheme,
+            stoneThemes: stoneThemes == null ? StoneThemes() : stoneThemes),
         child: _Goban());
   }
 }
@@ -36,22 +38,8 @@ class _Goban extends StatelessWidget {
     var model = Provider.of<GobanModel>(context);
 
     var boardSize = model.boardSize;
-    var theme = model.gobanTheme;
-
-    var boardColor =
-    theme == null ? GobanTheme.defaultBoardColor : theme.boardColor;
-    var lineColor =
-    theme == null ? GobanTheme.defaultLineColor : theme.lineColor;
-    var lineWidth =
-    theme == null ? GobanTheme.defaultLineWidth : theme.lineWidth;
-
-    var stoneThemes = StoneThemes(
-        model.stoneThemes?.blackStoneTheme == null
-            ? StoneTheme.defaultBlack()
-            : model.stoneThemes?.blackStoneTheme,
-        model.stoneThemes?.whiteStoneTheme == null
-            ? StoneTheme.defaultWhite()
-            : model.stoneThemes?.whiteStoneTheme);
+    var gobanTheme = model.gobanTheme;
+    var stoneThemes = model.stoneThemes;
 
     var verticalLines = <Widget>[];
     var horizontalLines = <Widget>[];
@@ -59,20 +47,21 @@ class _Goban extends StatelessWidget {
     // Create lines
     for (int i = 0; i < boardSize; i++) {
       verticalLines.add(Line(
-        lineColor: lineColor,
-        width: lineWidth,
+        lineColor: gobanTheme.lineColor,
+        width: gobanTheme.lineWidth,
       ));
 
       horizontalLines.add(Line(
-        lineColor: lineColor,
-        height: lineWidth,
+        lineColor: gobanTheme.lineColor,
+        height: gobanTheme.lineWidth,
       ));
     }
 
     return Container(
         decoration: BoxDecoration(
-          border: Border.all(color: lineColor, width: lineWidth),
-          color: boardColor,
+          border: Border.all(
+              color: gobanTheme.lineColor, width: gobanTheme.lineWidth),
+          color: gobanTheme.boardColor,
         ),
         child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) =>
@@ -83,37 +72,36 @@ class _Goban extends StatelessWidget {
                       child: Stack(
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.all(constraints.maxWidth /
-                                (boardSize * 2)),
-                            color: boardColor,
+                            margin: EdgeInsets.all(
+                                constraints.maxWidth / (boardSize * 2)),
+                            color: gobanTheme.boardColor,
                           ),
                           Positioned(
                             child: Container(
-                              margin: EdgeInsets.all(constraints.maxWidth /
-                                  (boardSize * 2)),
-
+                              margin: EdgeInsets.all(
+                                  constraints.maxWidth / (boardSize * 2)),
                               child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: verticalLines),
                             ),
                           ),
                           Positioned(
                             child: Container(
-                              margin: EdgeInsets.all(constraints.maxWidth /
-                                  (boardSize * 2)),
-
+                              margin: EdgeInsets.all(
+                                  constraints.maxWidth / (boardSize * 2)),
                               child: Column(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: horizontalLines),
                             ),
                           ),
                           Positioned(
                             child: Container(
                                 child: _getIntersections(
-                                    boardSize, constraints.maxWidth /
-                                    boardSize, stoneThemes)),
+                                    boardSize,
+                                    constraints.maxWidth / boardSize,
+                                    stoneThemes)),
                           ),
                         ],
                       ),
@@ -122,18 +110,18 @@ class _Goban extends StatelessWidget {
                 )));
   }
 
-  Widget _getIntersections(int boardSizeNum, double size,
-      StoneThemes stoneThemes) {
+  Widget _getIntersections(
+      int boardSizeNum, double size, StoneThemes stoneThemes) {
     var intersections = <Row>[];
 
     for (int i = 0; i < boardSizeNum; i++) {
       var children = <Widget>[
         for (int j = 0; j < boardSizeNum; j++)
           ChangeNotifierProvider<StoneModel>(
-              builder: (_) =>
-                  StoneModel(
-                      stoneThemes: stoneThemes,
-                      size: size), child: Intersection(key: UniqueKey(),))
+              builder: (_) => StoneModel(stoneThemes: stoneThemes, size: size),
+              child: Intersection(
+                key: UniqueKey(),
+              ))
       ];
 
       intersections.add(Row(
