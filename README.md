@@ -4,7 +4,7 @@ Adaptive Go board widget for Flutter.
 
 ## Usage
 
-![Goban usage](https://res.cloudinary.com/dk4dtpymd/image/upload/c_scale,h_800/v1558296920/iatcfmvfqmlkqsueim0q.gif)
+![Goban usage](https://res.cloudinary.com/dk4dtpymd/image/upload/v1558298626/fs14uz2zorbfjoushztg.gif)
 
 Goban is also fully customizable:
 
