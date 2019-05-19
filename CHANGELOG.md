@@ -1,3 +1,4 @@
-## [0.0.1] - TODO: Add release date.
+## [0.0.1] - 2019-05-19
 
-* TODO: Describe initial release.
+* Initial release, supports the rudimentary Go board & stones
+* Ability to place stones on the board
