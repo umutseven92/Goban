@@ -10,11 +10,12 @@ class Stone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = Provider.of<StoneModel>(context).size;
+    final stoneModel = Provider.of<StoneModel>(context);
+    final size = stoneModel.size;
 
     return Container(
-      height: size,
       width: size,
+      height: size,
       decoration: BoxDecoration(
           border: Border.all(color: theme.borderColor, width: 2),
           color: theme.stoneColor,

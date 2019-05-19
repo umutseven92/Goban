@@ -9,6 +9,7 @@ class Intersection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stoneModel = Provider.of<StoneModel>(context);
+    final size = stoneModel.size;
 
     Widget child;
 
@@ -22,12 +23,11 @@ class Intersection extends StatelessWidget {
       );
     } else {
       child = Container(
-        height: stoneModel.size,
-        width: stoneModel.size,
-        decoration: BoxDecoration(
-            color: Color.fromARGB(120, 255, 0, 0),
-            borderRadius: BorderRadius.circular(stoneModel.size)),
-      );
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+              color: Color.fromARGB(120, 255, 0, 0),
+              borderRadius: BorderRadius.circular(size)));
     }
 
     return GestureDetector(onTap: () => _addStone(context), child: child);

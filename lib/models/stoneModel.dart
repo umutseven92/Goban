@@ -5,10 +5,10 @@ import 'package:goban/themes/stoneTheme.dart';
 class StoneModel with ChangeNotifier {
   bool _active = false;
   Player _player = Player.Black;
-  double _size;
-  StoneThemes stoneThemes;
+  final StoneThemes stoneThemes;
+  final double size;
 
-  StoneModel(this._size, {@required this.stoneThemes});
+  StoneModel({@required this.stoneThemes, @required this.size});
 
   get active => _active;
 
@@ -21,13 +21,6 @@ class StoneModel with ChangeNotifier {
 
   set player(Player color) {
     _player = color;
-    notifyListeners();
-  }
-
-  get size => _size;
-
-  set size(double val) {
-    _size = val;
     notifyListeners();
   }
 }
