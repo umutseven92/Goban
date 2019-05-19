@@ -1,9 +1,7 @@
 library goban;
 
 import 'package:flutter/material.dart';
-import 'package:goban/enums/boardSize.dart';
-import 'package:goban/helpers/intersectionHelper.dart';
-import 'package:goban/helpers/stoneHelper.dart';
+import 'package:goban/exceptions/gobanException.dart';
 import 'package:goban/models/gobanModel.dart';
 import 'package:goban/models/stoneModel.dart';
 import 'package:goban/themes/gobanTheme.dart';
@@ -13,11 +11,15 @@ import 'package:goban/widgets/line.dart';
 import 'package:provider/provider.dart';
 
 class Goban extends StatelessWidget {
-  final BoardSize boardSize;
+  final int boardSize;
   final GobanTheme gobanTheme;
   final StoneThemes stoneThemes;
 
-  Goban({@required this.boardSize, this.gobanTheme, this.stoneThemes});
+  Goban({@required this.boardSize, this.gobanTheme, this.stoneThemes}) {
+    if (boardSize < 2) {
+      throw GobanException('Board size cannot be smaller than 2!');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +33,10 @@ class Goban extends StatelessWidget {
 class _Goban extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size.width;
     var model = Provider.of<GobanModel>(context);
 
     var boardSize = model.boardSize;
     var theme = model.gobanTheme;
-    var stoneSize = StoneHelper.calculateStoneSizeFromBoardSize(boardSize);
-
-    var boardSizeNum = BoardSizeHelper.getBoardSizeNumber(boardSize);
 
     var boardColor =
     theme == null ? GobanTheme.defaultBoardColor : theme.boardColor;
@@ -59,27 +57,83 @@ class _Goban extends StatelessWidget {
     var horizontalLines = <Widget>[];
 
     // Create lines
-    for (int i = 0; i < boardSizeNum; i++) {
-      verticalLines
-          .add(Line(lineColor: lineColor, width: lineWidth, height: size));
+    for (int i = 0; i < boardSize; i++) {
+      verticalLines.add(Line(
+        lineColor: lineColor,
+        width: lineWidth,
+      ));
 
       horizontalLines.add(Line(
         lineColor: lineColor,
-        width: size,
         height: lineWidth,
       ));
     }
 
-    // Create intersections
+    return Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: lineColor, width: lineWidth),
+          color: boardColor,
+        ),
+        child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) =>
+                AspectRatio(
+                  aspectRatio: 1.0,
+                  child: Container(
+                    child: Container(
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.all(constraints.maxWidth /
+                                (boardSize * 2)),
+                            color: boardColor,
+                          ),
+                          Positioned(
+                            child: Container(
+                              margin: EdgeInsets.all(constraints.maxWidth /
+                                  (boardSize * 2)),
 
+                              child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: verticalLines),
+                            ),
+                          ),
+                          Positioned(
+                            child: Container(
+                              margin: EdgeInsets.all(constraints.maxWidth /
+                                  (boardSize * 2)),
+
+                              child: Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: horizontalLines),
+                            ),
+                          ),
+                          Positioned(
+                            child: Container(
+                                child: _getIntersections(
+                                    boardSize, constraints.maxWidth /
+                                    boardSize, stoneThemes)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )));
+  }
+
+  Widget _getIntersections(int boardSizeNum, double size,
+      StoneThemes stoneThemes) {
     var intersections = <Row>[];
 
     for (int i = 0; i < boardSizeNum; i++) {
       var children = <Widget>[
         for (int j = 0; j < boardSizeNum; j++)
           ChangeNotifierProvider<StoneModel>(
-              builder: (_) => StoneModel(stoneSize, stoneThemes: stoneThemes),
-              child: Intersection())
+              builder: (_) =>
+                  StoneModel(
+                      stoneThemes: stoneThemes,
+                      size: size), child: Intersection(key: UniqueKey(),))
       ];
 
       intersections.add(Row(
@@ -92,50 +146,6 @@ class _Goban extends StatelessWidget {
       children: intersections,
     );
 
-    return Container(
-      height: size,
-      width: size,
-      child: Container(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              color: boardColor,
-            ),
-            Positioned(
-              child: Container(
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: verticalLines),
-              ),
-            ),
-            Positioned(
-              child: Container(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: horizontalLines),
-              ),
-            ),
-            Positioned(
-              top: IntersectionHelper
-                  .calculateIntersectionAdjustmentFromBoardSize(boardSize),
-              left: IntersectionHelper
-                  .calculateIntersectionAdjustmentFromBoardSize(boardSize),
-              child: Container(
-                height: size +
-                    IntersectionHelper
-                        .calculateBoardHeightAdjustmentFromBoardSize(
-                        boardSize),
-                width: size +
-                    IntersectionHelper
-                        .calculateBoardWidthAdjustmentFromBoardSize(
-                        boardSize),
-                child: intersectionCol,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+    return intersectionCol;
   }
 }
-

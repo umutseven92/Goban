@@ -6,9 +6,12 @@ import 'package:goban/widgets/stone.dart';
 import 'package:provider/provider.dart';
 
 class Intersection extends StatelessWidget {
+  const Intersection({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final stoneModel = Provider.of<StoneModel>(context);
+    final size = stoneModel.size;
 
     Widget child;
 
@@ -22,12 +25,10 @@ class Intersection extends StatelessWidget {
       );
     } else {
       child = Container(
-        height: stoneModel.size,
-        width: stoneModel.size,
-        decoration: BoxDecoration(
-            color: Color.fromARGB(120, 255, 0, 0),
-            borderRadius: BorderRadius.circular(stoneModel.size)),
-      );
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(size)));
     }
 
     return GestureDetector(onTap: () => _addStone(context), child: child);
@@ -38,11 +39,12 @@ class Intersection extends StatelessWidget {
     if (model.active) {
       return;
     }
-
     final gobanModel = Provider.of<GobanModel>(context);
 
     model.active = true;
     model.player = gobanModel.turn;
+
+
     gobanModel.nextTurn();
   }
 }
