@@ -1,2 +1,2 @@
 
-enum Player { White, Black }
+enum Player { White, Black, Empty }

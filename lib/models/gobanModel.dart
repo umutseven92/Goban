@@ -1,38 +1,46 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:goban/data_classes/move.dart';
+import 'package:goban/data_classes/stonePosition.dart';
 import 'package:goban/enums/player.dart';
 import 'package:goban/themes/gobanTheme.dart';
 import 'package:goban/themes/stoneTheme.dart';
+import 'package:tuple/tuple.dart';
 
 class GobanModel with ChangeNotifier {
   final int boardSize;
-  final double size;
   final GobanTheme gobanTheme;
   final StoneThemes stoneThemes;
 
-  Player turn;
+  final StreamController<StonePosition> moveStream =
+      StreamController<StonePosition>();
 
-  GobanModel(
-      {this.boardSize,
-      this.size,
-      this.gobanTheme,
-      this.stoneThemes,
-      this.turn = Player.Black});
+  List<List<Tuple2<StonePosition, Player>>> gobanMap =
+      List<List<Tuple2<StonePosition, Player>>>();
 
-  void nextTurn() {
-    Player colorToSet;
+  GobanModel({this.boardSize, this.gobanTheme, this.stoneThemes}) {
+    for (int i = 0; i < boardSize; i++) {
+      var children = <Tuple2<StonePosition, Player>>[
+        for (int j = 0; j < boardSize; j++)
+          Tuple2(StonePosition(row: j, column: i), Player.Empty)
+      ];
 
-    if (turn == Player.Black) {
-      colorToSet = Player.White;
-    } else if (turn == Player.White) {
-      colorToSet = Player.Black;
+      gobanMap.add(children);
     }
+  }
 
-    turn = colorToSet;
+  void makeMove(Move move) {
+    gobanMap[move.position.column][move.position.row] =
+        gobanMap[move.position.column][move.position.row]
+            .withItem2(move.player);
+
     notifyListeners();
   }
 
-  set boardSize(int boardSize) {
-    this.boardSize = boardSize;
-    notifyListeners();
+  @override
+  void dispose() {
+    moveStream.close();
+    super.dispose();
   }
 }
