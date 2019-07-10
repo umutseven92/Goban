@@ -1,45 +1,45 @@
 library goban;
 
 import 'package:flutter/material.dart';
-import 'package:goban/exceptions/gobanException.dart';
+import 'package:goban/data_classes/stonePosition.dart';
+import 'package:goban/enums/player.dart';
 import 'package:goban/models/gobanModel.dart';
-import 'package:goban/models/stoneModel.dart';
-import 'package:goban/themes/gobanTheme.dart';
 import 'package:goban/themes/stoneTheme.dart';
 import 'package:goban/widgets/intersection.dart';
 import 'package:goban/widgets/line.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 class Goban extends StatelessWidget {
-  final int boardSize;
-  final GobanTheme gobanTheme;
-  final StoneThemes stoneThemes;
+  Widget _getIntersections(List<List<Tuple2<StonePosition, Player>>> gobanMap,
+      StoneThemes stoneThemes, double size) {
+    var intersections = <Row>[];
 
-  Goban({@required this.boardSize, this.gobanTheme, this.stoneThemes}) {
-    if (boardSize < 2) {
-      throw GobanException('Board size cannot be smaller than 2!');
-    }
+    gobanMap.forEach((l) => intersections.add(Row(children: [
+          for (Tuple2 item in l)
+            Intersection(
+              size: size,
+              position: item.item1,
+              stoneThemes: stoneThemes,
+              player: item.item2,
+              key: UniqueKey(),
+            )
+        ], mainAxisAlignment: MainAxisAlignment.spaceBetween)));
+
+    var intersectionCol = Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: intersections,
+    );
+
+    return intersectionCol;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<GobanModel>(
-        builder: (_) => GobanModel(
-            boardSize: boardSize,
-            gobanTheme: gobanTheme == null ? GobanTheme() : gobanTheme,
-            stoneThemes: stoneThemes == null ? StoneThemes() : stoneThemes),
-        child: _Goban());
-  }
-}
-
-class _Goban extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var model = Provider.of<GobanModel>(context);
 
     var boardSize = model.boardSize;
     var gobanTheme = model.gobanTheme;
-    var stoneThemes = model.stoneThemes;
 
     var verticalLines = <Widget>[];
     var horizontalLines = <Widget>[];
@@ -99,41 +99,14 @@ class _Goban extends StatelessWidget {
                           Positioned(
                             child: Container(
                                 child: _getIntersections(
-                                    boardSize,
-                                    constraints.maxWidth / boardSize,
-                                    stoneThemes)),
+                                    model.gobanMap,
+                                    model.stoneThemes,
+                                    constraints.maxWidth / boardSize)),
                           ),
                         ],
                       ),
                     ),
                   ),
                 )));
-  }
-
-  Widget _getIntersections(
-      int boardSizeNum, double size, StoneThemes stoneThemes) {
-    var intersections = <Row>[];
-
-    for (int i = 0; i < boardSizeNum; i++) {
-      var children = <Widget>[
-        for (int j = 0; j < boardSizeNum; j++)
-          ChangeNotifierProvider<StoneModel>(
-              builder: (_) => StoneModel(stoneThemes: stoneThemes, size: size),
-              child: Intersection(
-                key: UniqueKey(),
-              ))
-      ];
-
-      intersections.add(Row(
-          children: children,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween));
-    }
-
-    var intersectionCol = Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: intersections,
-    );
-
-    return intersectionCol;
   }
 }
