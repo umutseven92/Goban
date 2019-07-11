@@ -7,7 +7,7 @@ class GobanTheme {
 
   static const Color defaultBoardColor = Colors.amber;
   static const Color defaultLineColor = Colors.black;
-  static const double defaultLineWidth = 3;
+  static const double defaultLineWidth = 2.5;
 
   GobanTheme({this.boardColor, this.lineColor, this.lineWidth}) {
     if (boardColor == null) {

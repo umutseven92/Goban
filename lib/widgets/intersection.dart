@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goban/data_classes/stonePosition.dart';
+import 'package:goban/data_classes/position.dart';
 import 'package:goban/enums/player.dart';
 import 'package:goban/models/gobanModel.dart';
 import 'package:goban/themes/stoneTheme.dart';
@@ -7,7 +7,7 @@ import 'package:goban/widgets/stone.dart';
 import 'package:provider/provider.dart';
 
 class Intersection extends StatelessWidget {
-  final StonePosition position;
+  final Position position;
   final Player player;
   final double size;
   final StoneThemes stoneThemes;
