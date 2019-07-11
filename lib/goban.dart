@@ -8,8 +8,8 @@ import 'package:goban/helpers/boardSizeHelper.dart';
 import 'package:goban/models/gobanModel.dart';
 import 'package:goban/themes/stoneTheme.dart';
 import 'package:goban/widgets/intersection.dart';
-import 'package:goban/widgets/line.dart';
-import 'package:goban/widgets/starPoint.dart';
+import 'package:goban/widgets/lines.dart';
+import 'package:goban/widgets/starPoints.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -37,58 +37,6 @@ class Goban extends StatelessWidget {
     return intersectionCol;
   }
 
-  Widget _createStarPoints(
-      GobanMap gobanMap, Color color, double size, List<Position> starPos) {
-    var stars = <Row>[];
-    gobanMap.map.forEach((l) => stars.add(Row(children: [
-          for (Tuple2<Position, Player> item in l)
-            if (starPos.any((sp) =>
-                sp.column == item.item1.column && sp.row == item.item1.row))
-              StarPoint(color: color, size: size, key: UniqueKey())
-            else
-              StarPoint(
-                  color: Color.fromARGB(0, 255, 255, 255),
-                  size: size,
-                  key: UniqueKey())
-        ], mainAxisAlignment: MainAxisAlignment.spaceBetween)));
-
-    var starCol = Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: stars,
-    );
-
-    return starCol;
-  }
-
-  Tuple2<List<Widget>, List<Widget>> _createLines(
-      int boardSize, double width, Color color) {
-    var verticalLines = _createVerticalLines(boardSize, width, color);
-    var horizontalLines = _createHorizontalLines(boardSize, width, color);
-
-    return Tuple2(verticalLines, horizontalLines);
-  }
-
-  List<Widget> _createVerticalLines(int boardSize, double width, Color color) {
-    return [
-      for (int i = 0; i < boardSize; i++)
-        Line(
-          lineColor: color,
-          width: width,
-        )
-    ];
-  }
-
-  List<Widget> _createHorizontalLines(
-      int boardSize, double height, Color color) {
-    return [
-      for (int i = 0; i < boardSize; i++)
-        Line(
-          lineColor: color,
-          height: height,
-        )
-    ];
-  }
-
   @override
   Widget build(BuildContext context) {
     var model = Provider.of<GobanModel>(context);
@@ -96,14 +44,7 @@ class Goban extends StatelessWidget {
     var gobanTheme = model.gobanTheme;
     var boardSize = BoardSizeHelper.getBoardSizeFromEnum(model.boardSize);
 
-    var lines =
-        _createLines(boardSize, gobanTheme.lineWidth, gobanTheme.lineColor);
-
-    var verticalLines = lines.item1;
-    var horizontalLines = lines.item2;
     var starPos = BoardSizeHelper.getStartPointCoordinate(model.boardSize);
-    var starPoints = _createStarPoints(model.gobanMap, gobanTheme.lineColor,
-        gobanTheme.lineWidth * 4, starPos);
 
     return Container(
         decoration: BoxDecoration(
@@ -124,31 +65,20 @@ class Goban extends StatelessWidget {
                                 constraints.maxWidth / (boardSize * 2)),
                             color: gobanTheme.boardColor,
                           ),
-                          Positioned(
-                            child: Container(
-                              margin: EdgeInsets.all(
-                                  constraints.maxWidth / (boardSize * 2)),
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: verticalLines),
-                            ),
-                          ),
-                          Positioned(
-                            child: Container(
-                              margin: EdgeInsets.all(
-                                  constraints.maxWidth / (boardSize * 2)),
-                              child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: horizontalLines),
-                            ),
-                          ),
+                          Lines(
+                              boardSize: model.boardSize,
+                              color: gobanTheme.lineColor,
+                              width: gobanTheme.lineWidth,
+                              margin: constraints.maxWidth / (boardSize * 2)),
                           Positioned(
                               child: Container(
                             margin: EdgeInsets.all(
                                 constraints.maxWidth / (boardSize * 2.5)),
-                            child: starPoints,
+                            child: StarPoints(
+                                starPos: starPos,
+                                gobanMap: model.gobanMap,
+                                color: gobanTheme.lineColor,
+                                size: gobanTheme.lineWidth * 4),
                           )),
                           Positioned(
                             child: Container(
