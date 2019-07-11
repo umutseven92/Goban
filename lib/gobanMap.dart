@@ -9,6 +9,7 @@ class GobanMap {
   final List<List<Tuple2<StonePosition, Player>>> map =
       List<List<Tuple2<StonePosition, Player>>>();
 
+
   GobanMap(this.boardSize) {
     _initMap();
   }

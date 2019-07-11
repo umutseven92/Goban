@@ -22,7 +22,6 @@ Goban is also fully customizable:
 
 ## Todo
 
-* Last stone played indicator
 * Stone shadow when on hold
 * Coordinates
 * Ability to show just one corner

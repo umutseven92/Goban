@@ -16,6 +16,7 @@ class GobanModel with ChangeNotifier {
       StreamController<StonePosition>();
   
   GobanMap gobanMap;
+  Move lastMove;
 
   GobanModel({this.boardSize, this.gobanTheme, this.stoneThemes}) {
     gobanMap = GobanMap(boardSize);
@@ -23,6 +24,7 @@ class GobanModel with ChangeNotifier {
 
 
   void makeMove(Move move) {
+    lastMove = move;
     gobanMap.updateMap(move);
     notifyListeners();
   }
