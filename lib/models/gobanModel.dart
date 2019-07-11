@@ -5,13 +5,11 @@ import 'package:goban/data_classes/move.dart';
 import 'package:goban/data_classes/position.dart';
 import 'package:goban/enums/boardSize.dart';
 import 'package:goban/themes/gobanTheme.dart';
-import 'package:goban/themes/stoneTheme.dart';
 import 'package:goban/gobanMap.dart';
 
 class GobanModel with ChangeNotifier {
   final BoardSize boardSize;
   final GobanTheme gobanTheme;
-  final StoneThemes stoneThemes;
 
   final StreamController<Position> moveStream =
       StreamController<Position>();
@@ -19,7 +17,7 @@ class GobanModel with ChangeNotifier {
   GobanMap gobanMap;
   Move lastMove;
 
-  GobanModel({this.boardSize, this.gobanTheme, this.stoneThemes}) {
+  GobanModel({this.boardSize, this.gobanTheme}) {
     gobanMap = GobanMap(boardSize);
   }
 
