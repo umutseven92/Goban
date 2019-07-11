@@ -22,18 +22,27 @@ class Intersection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget child = _createStone(player, size, stoneThemes);
+    var gobanModel = Provider.of<GobanModel>(context);
+
+    bool last;
+    if (gobanModel.lastMove != null) {
+      var lastPos = gobanModel.lastMove.position;
+      last = lastPos.row == position.row && lastPos.column == position.column;
+    } else {
+      last = false;
+    }
+    Widget child = _createStone(player, size, stoneThemes, last);
 
     return GestureDetector(
       child: child,
       onTap: () {
-        var gobanModel = Provider.of<GobanModel>(context);
         gobanModel.moveStream.add(position);
       },
     );
   }
 
-  Widget _createStone(Player player, double size, StoneThemes stoneThemes) {
+  Widget _createStone(
+      Player player, double size, StoneThemes stoneThemes, bool last) {
     Widget stone;
 
     switch (player) {
@@ -42,14 +51,15 @@ class Intersection extends StatelessWidget {
           key: UniqueKey(),
           size: size,
           theme: stoneThemes.whiteStoneTheme,
+          last: last,
         );
         break;
       case Player.Black:
         stone = Stone(
-          key: UniqueKey(),
-          size: size,
-          theme: stoneThemes.blackStoneTheme,
-        );
+            key: UniqueKey(),
+            size: size,
+            theme: stoneThemes.blackStoneTheme,
+            last: last);
         break;
       case Player.Empty:
         stone = Container(
