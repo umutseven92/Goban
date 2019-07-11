@@ -1,13 +1,15 @@
 import 'package:goban/data_classes/move.dart';
+import 'package:goban/data_classes/position.dart';
+import 'package:goban/enums/boardSize.dart';
+import 'package:goban/helpers/boardSizeHelper.dart';
 import 'package:tuple/tuple.dart';
-import 'package:goban/data_classes/stonePosition.dart';
 import 'package:goban/enums/player.dart';
 
 class GobanMap {
-  final int boardSize;
+  final BoardSize boardSize;
 
-  final List<List<Tuple2<StonePosition, Player>>> map =
-      List<List<Tuple2<StonePosition, Player>>>();
+  final List<List<Tuple2<Position, Player>>> map =
+      List<List<Tuple2<Position, Player>>>();
 
 
   GobanMap(this.boardSize) {
@@ -15,10 +17,12 @@ class GobanMap {
   }
 
   void _initMap() {
-    for (int i = 0; i < boardSize; i++) {
-      var children = <Tuple2<StonePosition, Player>>[
-        for (int j = 0; j < boardSize; j++)
-          Tuple2(StonePosition(j, i), Player.Empty)
+    var boardSizeNum = BoardSizeHelper.getBoardSizeFromEnum(boardSize);
+
+    for (int i = 0; i < boardSizeNum; i++) {
+      var children = <Tuple2<Position, Player>>[
+        for (int j = 0; j < boardSizeNum; j++)
+          Tuple2(Position(j, i), Player.Empty)
       ];
 
       map.add(children);
