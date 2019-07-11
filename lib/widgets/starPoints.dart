@@ -2,24 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:goban/data_classes/position.dart';
 import 'package:goban/enums/player.dart';
 import 'package:goban/gobanMap.dart';
+import 'package:goban/helpers/boardSizeHelper.dart';
+import 'package:goban/models/gobanModel.dart';
 import 'package:goban/widgets/starPoint.dart';
+import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 class StarPoints extends StatelessWidget {
-  final GobanMap gobanMap;
-  final Color color;
-  final double size;
-  final List<Position> starPos;
+  const StarPoints({Key key}) : super(key: key);
 
-  const StarPoints(
-      {Key key,
-      @required this.gobanMap,
-      @required this.color,
-      @required this.size,
-      @required this.starPos})
-      : super(key: key);
-
-  Widget _createStarPoints() {
+  Widget _createStarPoints(
+      GobanMap gobanMap, Color color, double size, List<Position> starPos) {
     var stars = <Row>[];
     gobanMap.map.forEach((l) => stars.add(Row(children: [
           for (Tuple2<Position, Player> item in l)
@@ -43,6 +36,13 @@ class StarPoints extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _createStarPoints();
+    var gobanModel = Provider.of<GobanModel>(context);
+    var starPos = BoardSizeHelper.getStartPointCoordinate(gobanModel.boardSize);
+
+    return _createStarPoints(
+        gobanModel.gobanMap,
+        gobanModel.gobanTheme.lineColor,
+        gobanModel.gobanTheme.lineWidth * 4,
+        starPos);
   }
 }
