@@ -18,8 +18,9 @@ class Goban extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
           border: Border.all(
-              color: gobanTheme.lineColor, width: gobanTheme.lineWidth),
-          color: gobanTheme.boardColor,
+              color: gobanTheme.boardTheme.lineColor,
+              width: gobanTheme.boardTheme.lineWidth),
+          color: gobanTheme.boardTheme.boardColor,
         ),
         child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) =>
@@ -29,7 +30,9 @@ class Goban extends StatelessWidget {
                     child: Container(
                       child: Stack(
                         children: <Widget>[
-                          Board(margin: constraints.maxWidth / (boardSize * 2),),
+                          Board(
+                            margin: constraints.maxWidth / (boardSize * 2),
+                          ),
                           Lines(margin: constraints.maxWidth / (boardSize * 2)),
                           Positioned(
                               child: Container(

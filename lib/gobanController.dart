@@ -6,13 +6,11 @@ import 'package:goban/enums/boardSize.dart';
 import 'package:goban/goban.dart';
 import 'package:goban/models/gobanModel.dart';
 import 'package:goban/themes/gobanTheme.dart';
-import 'package:goban/themes/stoneTheme.dart';
 import 'package:provider/provider.dart';
 
 class GobanController {
   final BoardSize boardSize;
   final GobanTheme gobanTheme;
-  final StoneThemes stoneThemes;
   final StreamController<Position> gobanStream =
       StreamController<Position>();
 
@@ -21,12 +19,10 @@ class GobanController {
 
   GobanController(
       {this.boardSize = BoardSize.Thirteen,
-      this.gobanTheme,
-      this.stoneThemes}) {
+      this.gobanTheme}) {
     _model = GobanModel(
         boardSize: boardSize,
-        gobanTheme: gobanTheme ?? GobanTheme.defaultTheme(),
-        stoneThemes: stoneThemes ?? StoneThemes.defaultTheme());
+        gobanTheme: gobanTheme ?? GobanTheme.defaultTheme());
 
     _model.moveStream.stream.listen((Position move) {
       gobanStream.add(move);

@@ -39,6 +39,6 @@ class Intersections extends StatelessWidget {
     var gobanModel = Provider.of<GobanModel>(context);
 
     return _createIntersectionsFromGobanMap(
-        gobanModel.gobanMap, gobanModel.stoneThemes);
+        gobanModel.gobanMap, gobanModel.gobanTheme.stoneThemes);
   }
 }

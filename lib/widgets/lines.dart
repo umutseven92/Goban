@@ -48,8 +48,8 @@ class Lines extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: _createVerticalLines(
                     gobanModel.boardSize,
-                    gobanModel.gobanTheme.lineColor,
-                    gobanModel.gobanTheme.lineWidth)),
+                    gobanModel.gobanTheme.boardTheme.lineColor,
+                    gobanModel.gobanTheme.boardTheme.lineWidth)),
           ),
         ),
         Positioned(
@@ -59,8 +59,8 @@ class Lines extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: _createHorizontalLines(
                     gobanModel.boardSize,
-                    gobanModel.gobanTheme.lineColor,
-                    gobanModel.gobanTheme.lineWidth)),
+                    gobanModel.gobanTheme.boardTheme.lineColor,
+                    gobanModel.gobanTheme.boardTheme.lineWidth)),
           ),
         )
       ],

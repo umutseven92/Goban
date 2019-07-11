@@ -1,41 +1,24 @@
-import 'package:flutter/material.dart';
+import 'package:goban/themes/boardTheme.dart';
+import 'package:goban/themes/stoneTheme.dart';
 
 class GobanTheme {
-  Color boardColor;
-  Color lineColor;
-  double lineWidth;
-
-  static const Color defaultBoardColor = Colors.amber;
-  static const Color defaultLineColor = Colors.black;
-  static const double defaultLineWidth = 2.5;
-
-  GobanTheme({this.boardColor, this.lineColor, this.lineWidth}) {
-    if (boardColor == null) {
-      boardColor = defaultBoardColor;
-    }
-    if (lineColor == null) {
-      lineColor = defaultLineColor;
-    }
-    if (lineWidth == null) {
-      lineWidth = defaultLineWidth;
-    }
-  }
+  BoardTheme boardTheme;
+  StoneThemes stoneThemes;
 
   GobanTheme.defaultTheme() {
-    this.boardColor = defaultBoardColor;
-    this.lineColor = defaultLineColor;
-    this.lineWidth = defaultLineWidth;
+    boardTheme = BoardTheme.defaultTheme();
+    stoneThemes = StoneThemes.defaultTheme();
   }
 
   GobanTheme.bookTheme() {
-    this.boardColor = Colors.white;
-    this.lineColor = Colors.black;
-    this.lineWidth = 2.5;
+    boardTheme = BoardTheme.bookTheme();
+    stoneThemes = StoneThemes.bookTheme();
   }
 
   GobanTheme.jadeTheme() {
-    this.boardColor = Colors.amberAccent;
-    this.lineColor = Colors.black;
-    this.lineWidth = 2.5;
+    boardTheme = BoardTheme.jadeTheme();
+    stoneThemes = StoneThemes.jadeTheme();
   }
+
+  GobanTheme({this.boardTheme, this.stoneThemes});
 }

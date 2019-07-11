@@ -12,7 +12,7 @@ class Board extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.all(margin),
-      color: gobanModel.gobanTheme.boardColor,
+      color: gobanModel.gobanTheme.boardTheme.boardColor,
     );
   }
 }

@@ -41,8 +41,8 @@ class StarPoints extends StatelessWidget {
 
     return _createStarPoints(
         gobanModel.gobanMap,
-        gobanModel.gobanTheme.lineColor,
-        gobanModel.gobanTheme.lineWidth * 4,
+        gobanModel.gobanTheme.boardTheme.lineColor,
+        gobanModel.gobanTheme.boardTheme.lineWidth * 4,
         starPos);
   }
 }
