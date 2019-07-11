@@ -1,8 +1,7 @@
 library goban;
 
 import 'package:flutter/material.dart';
-import 'package:goban/data_classes/stonePosition.dart';
-import 'package:goban/enums/player.dart';
+import 'package:goban/gobanMap.dart';
 import 'package:goban/models/gobanModel.dart';
 import 'package:goban/themes/stoneTheme.dart';
 import 'package:goban/widgets/intersection.dart';
@@ -11,11 +10,11 @@ import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 class Goban extends StatelessWidget {
-  Widget _getIntersections(List<List<Tuple2<StonePosition, Player>>> gobanMap,
-      StoneThemes stoneThemes, double size) {
+  Widget _createIntersectionsFromGobanMap(
+      GobanMap gobanMap, StoneThemes stoneThemes, double size) {
     var intersections = <Row>[];
 
-    gobanMap.forEach((l) => intersections.add(Row(children: [
+    gobanMap.map.forEach((l) => intersections.add(Row(children: [
           for (Tuple2 item in l)
             Intersection(
               size: size,
@@ -34,6 +33,35 @@ class Goban extends StatelessWidget {
     return intersectionCol;
   }
 
+  Tuple2<List<Widget>, List<Widget>> _createLines(
+      int boardSize, double width, Color color) {
+    var verticalLines = _createVerticalLines(boardSize, width, color);
+    var horizontalLines = _createHorizontalLines(boardSize, width, color);
+
+    return Tuple2(verticalLines, horizontalLines);
+  }
+
+  List<Widget> _createVerticalLines(int boardSize, double width, Color color) {
+    return [
+      for (int i = 0; i < boardSize; i++)
+        Line(
+          lineColor: color,
+          width: width,
+        )
+    ];
+  }
+
+  List<Widget> _createHorizontalLines(
+      int boardSize, double height, Color color) {
+    return [
+      for (int i = 0; i < boardSize; i++)
+        Line(
+          lineColor: color,
+          height: height,
+        )
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     var model = Provider.of<GobanModel>(context);
@@ -41,21 +69,11 @@ class Goban extends StatelessWidget {
     var boardSize = model.boardSize;
     var gobanTheme = model.gobanTheme;
 
-    var verticalLines = <Widget>[];
-    var horizontalLines = <Widget>[];
+    var lines =
+        _createLines(boardSize, gobanTheme.lineWidth, gobanTheme.lineColor);
 
-    // Create lines
-    for (int i = 0; i < boardSize; i++) {
-      verticalLines.add(Line(
-        lineColor: gobanTheme.lineColor,
-        width: gobanTheme.lineWidth,
-      ));
-
-      horizontalLines.add(Line(
-        lineColor: gobanTheme.lineColor,
-        height: gobanTheme.lineWidth,
-      ));
-    }
+    var verticalLines = lines.item1;
+    var horizontalLines = lines.item2;
 
     return Container(
         decoration: BoxDecoration(
@@ -98,7 +116,7 @@ class Goban extends StatelessWidget {
                           ),
                           Positioned(
                             child: Container(
-                                child: _getIntersections(
+                                child: _createIntersectionsFromGobanMap(
                                     model.gobanMap,
                                     model.stoneThemes,
                                     constraints.maxWidth / boardSize)),

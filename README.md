@@ -10,7 +10,17 @@ Goban is also fully customizable:
 
 ![Goban customization](https://res.cloudinary.com/dk4dtpymd/image/upload/c_scale,h_800/v1558296915/n3dyubf3vk7svum8kphr.png)
 
-## ToDo
+## Current Customization Options
+
+* Stones
+  * Color
+  * Border color
+* Goban
+  * Board color
+  * Line color
+  * Line width
+
+## Todo
 
 * Last stone played indicator
 * Stone shadow when on hold
