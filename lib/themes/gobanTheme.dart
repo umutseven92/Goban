@@ -21,9 +21,21 @@ class GobanTheme {
     }
   }
 
-  GobanTheme.defaultGoban() {
+  GobanTheme.defaultTheme() {
     this.boardColor = defaultBoardColor;
     this.lineColor = defaultLineColor;
     this.lineWidth = defaultLineWidth;
+  }
+
+  GobanTheme.bookTheme() {
+    this.boardColor = Colors.white;
+    this.lineColor = Colors.black;
+    this.lineWidth = 2.5;
+  }
+
+  GobanTheme.jadeTheme() {
+    this.boardColor = Colors.amberAccent;
+    this.lineColor = Colors.black;
+    this.lineWidth = 2.5;
   }
 }

@@ -25,8 +25,8 @@ class GobanController {
       this.stoneThemes}) {
     _model = GobanModel(
         boardSize: boardSize,
-        gobanTheme: gobanTheme ?? GobanTheme(),
-        stoneThemes: stoneThemes ?? StoneThemes());
+        gobanTheme: gobanTheme ?? GobanTheme.defaultTheme(),
+        stoneThemes: stoneThemes ?? StoneThemes.defaultTheme());
 
     _model.moveStream.stream.listen((Position move) {
       gobanStream.add(move);

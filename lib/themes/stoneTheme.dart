@@ -13,6 +13,21 @@ class StoneThemes {
       whiteStoneTheme = WhiteStoneTheme.defaultWhite();
     }
   }
+
+  StoneThemes.defaultTheme() {
+    blackStoneTheme = BlackStoneTheme.defaultBlack();
+    whiteStoneTheme = WhiteStoneTheme.defaultWhite();
+  }
+
+  StoneThemes.bookTheme() {
+    blackStoneTheme = BlackStoneTheme.bookTheme();
+    whiteStoneTheme = WhiteStoneTheme.bookTheme();
+  }
+
+  StoneThemes.jadeTheme() {
+    blackStoneTheme = BlackStoneTheme.jadeTheme();
+    whiteStoneTheme = WhiteStoneTheme.jadeTheme();
+  }
 }
 
 class WhiteStoneTheme implements StoneTheme {
@@ -32,6 +47,16 @@ class WhiteStoneTheme implements StoneTheme {
   WhiteStoneTheme.defaultWhite() {
     this.stoneColor = defaultWhiteStoneColor;
     this.borderColor = defaultWhiteStoneBorderColor;
+  }
+
+  WhiteStoneTheme.bookTheme() {
+    this.stoneColor = Colors.white;
+    this.borderColor = Colors.black;
+  }
+
+  WhiteStoneTheme.jadeTheme() {
+    this.stoneColor = Colors.orange.withAlpha(230);
+    this.borderColor = Colors.orangeAccent.withAlpha(230);
   }
 
   @override
@@ -58,6 +83,16 @@ class BlackStoneTheme implements StoneTheme {
   BlackStoneTheme.defaultBlack() {
     this.stoneColor = defaultBlackStoneColor;
     this.borderColor = defaultBlackStoneBorderColor;
+  }
+
+  BlackStoneTheme.bookTheme() {
+    this.stoneColor = Colors.black;
+    this.borderColor = Colors.black;
+  }
+
+  BlackStoneTheme.jadeTheme() {
+    this.stoneColor = Colors.lightGreen.withAlpha(230);
+    this.borderColor = Colors.greenAccent.withAlpha(230);
   }
 
   @override
