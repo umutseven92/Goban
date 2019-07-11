@@ -22,6 +22,7 @@ Goban is also fully customizable:
 
 ## Todo
 
+* Star points
 * Stone shadow when on hold
 * Coordinates
 * Ability to show just one corner
