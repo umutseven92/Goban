@@ -9,3 +9,13 @@ Adaptive Go board widget for Flutter.
 Goban is also fully customizable:
 
 ![Goban customization](https://res.cloudinary.com/dk4dtpymd/image/upload/c_scale,h_800/v1558296915/n3dyubf3vk7svum8kphr.png)
+
+## ToDo
+
+* Last stone played indicator
+* Stone shadow when on hold
+* Coordinates
+* Ability to show just one corner
+* More theming (colors, backgrounds etc)
+* Animations
+* Documentation
