@@ -22,6 +22,7 @@ Goban is also fully customizable:
 
 ## Todo
 
+* SGF support
 * Animations
 * Stone shadow when on hold
 * Coordinates

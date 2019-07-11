@@ -11,7 +11,6 @@ class GobanMap {
   final List<List<Tuple2<Position, Player>>> map =
       List<List<Tuple2<Position, Player>>>();
 
-
   GobanMap(this.boardSize) {
     _initMap();
   }
@@ -31,7 +30,10 @@ class GobanMap {
 
   void updateMap(Move move) {
     map[move.position.column][move.position.row] =
-        map[move.position.column][move.position.row]
-            .withItem2(move.player);
+        map[move.position.column][move.position.row].withItem2(move.player);
+  }
+
+  Player getPlayerFromMap(Position pos) {
+    return map[pos.column][pos.row].item2;
   }
 }
