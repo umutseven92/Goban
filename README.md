@@ -45,7 +45,7 @@ gobanController.gobanStream.stream.listen((Position position) {
 });
 ```
 
-Please see [here](https://github.com/umutseven92/Goban/blob/master/lib/examples/localBoard.dart) for a more concrete example.
+Please see [here](https://github.com/umutseven92/Goban/blob/master/lib/example/localBoard.dart) for a more concrete example.
 
 ## Customization Options
 
