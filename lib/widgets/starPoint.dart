@@ -10,7 +10,7 @@ class StarPoint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 300),
       width: size,
       height: size,
       decoration: BoxDecoration(

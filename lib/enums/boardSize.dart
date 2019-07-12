@@ -1,6 +1,1 @@
-
-enum BoardSize {
-  Nine,
-  Thirteen,
-  Nineteen
-}
+enum BoardSize { Nine, Thirteen, Nineteen }
