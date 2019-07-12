@@ -15,7 +15,8 @@ class Goban extends StatelessWidget {
     var gobanTheme = model.gobanTheme;
     var boardSize = BoardSizeHelper.getBoardSizeFromEnum(model.boardSize);
 
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
         decoration: BoxDecoration(
           border: Border.all(
               color: gobanTheme.boardTheme.lineColor,

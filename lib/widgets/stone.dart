@@ -24,7 +24,8 @@ class Stone extends StatelessWidget {
     var indicatorMargin = (size - indicatorSize) / 2;
     var indicatorColor = _getInverseColor(theme.stoneColor);
 
-    var stone = Container(
+    var stone = AnimatedContainer(
+      duration: Duration(milliseconds: 500),
       width: size,
       height: size,
       decoration: BoxDecoration(
