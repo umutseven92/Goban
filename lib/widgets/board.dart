@@ -10,7 +10,8 @@ class Board extends StatelessWidget {
   Widget build(BuildContext context) {
     var gobanModel = Provider.of<GobanModel>(context);
 
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
       margin: EdgeInsets.all(margin),
       color: gobanModel.gobanTheme.boardTheme.boardColor,
     );

@@ -34,6 +34,14 @@ class GobanController {
     _model.makeMove(move);
   }
 
+  void setTheme(GobanTheme theme) {
+    _model.setTheme(theme);
+  }
+
+  void setSize(BoardSize size) {
+    _model.setSize(size);
+  }
+
   Player getPlayerFromPosition(Position pos) {
     return _model.getPlayerFromPosition(pos);
   }

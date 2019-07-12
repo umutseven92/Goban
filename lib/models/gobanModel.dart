@@ -9,8 +9,8 @@ import 'package:goban/themes/gobanTheme.dart';
 import 'package:goban/gobanMap.dart';
 
 class GobanModel with ChangeNotifier {
-  final BoardSize boardSize;
-  final GobanTheme gobanTheme;
+  BoardSize boardSize;
+  GobanTheme gobanTheme;
 
   final StreamController<Position> moveStream = StreamController<Position>();
 
@@ -37,5 +37,16 @@ class GobanModel with ChangeNotifier {
 
   Player getPlayerFromPosition(Position pos) {
     return gobanMap.getPlayerFromMap(pos);
+  }
+
+  void setTheme(GobanTheme theme) {
+    gobanTheme = theme;
+    notifyListeners();
+  }
+
+  void setSize(BoardSize size) {
+    boardSize = size;
+    gobanMap = GobanMap(size);
+    notifyListeners();
   }
 }

@@ -36,4 +36,9 @@ class GobanMap {
   Player getPlayerFromMap(Position pos) {
     return map[pos.column][pos.row].item2;
   }
+
+  void emptyMap() {
+    map.clear();
+    _initMap();
+  }
 }

@@ -42,7 +42,8 @@ class Lines extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Positioned(
-          child: Container(
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 300),
             margin: EdgeInsets.all(margin),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,7 +54,8 @@ class Lines extends StatelessWidget {
           ),
         ),
         Positioned(
-          child: Container(
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 300),
             margin: EdgeInsets.all(margin),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
