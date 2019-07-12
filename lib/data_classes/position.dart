@@ -1,4 +1,3 @@
-
 class Position {
   final int row;
   final int column;

@@ -1,6 +1,6 @@
 name: goban
-description: Go board widget for Flutter.
-version: 0.1.1
+description: Goban is an adaptive Go board for flutter. Fully customisable & easy to interface with your game logic.
+version: 0.1.2
 author: Umut Seven <umutseven92@gmail.com>
 homepage: https://umutseven.com
 repository: https://github.com/umutseven92/Goban

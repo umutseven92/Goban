@@ -15,7 +15,7 @@ class GobanModel with ChangeNotifier {
   final StreamController<Position> moveStream = StreamController<Position>();
 
   final List<Move> _moves = List<Move>();
-  Move get lastMove => _moves.isEmpty ? null: _moves.last;
+  Move get lastMove => _moves.isEmpty ? null : _moves.last;
 
   GobanMap gobanMap;
 
