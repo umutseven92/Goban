@@ -18,9 +18,7 @@ Screenshots go here
 
 ## Todo
 
-* Performance
 * SGF support
-* Animations
 * Stone shadow when on hold
 * Coordinates
 * Ability to show just one corner
