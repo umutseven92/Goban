@@ -1,5 +1,7 @@
 # Goban
 
+![Pub](https://img.shields.io/pub/v/goban.svg)
+
 ![Goban](https://res.cloudinary.com/dk4dtpymd/image/upload/c_scale,w_300/v1562940409/hwpmktcbazqa2qbwaale.gif "Goban")
 
 Customizable Go board widget for Flutter.
